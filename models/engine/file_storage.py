@@ -28,14 +28,26 @@ class FileStorage:
         "User": User,
     }
 
-    def all(self):
-        """Return all stored objects."""
-        return self.__objects
+    def all(self, cls=None):
+        """Return all stored objects, optionally filtered by class."""
+        if cls is None:
+            return self.__objects
+        return {
+            key: value for key, value in self.__objects.items()
+            if isinstance(value, cls)
+        }
 
     def new(self, obj):
         """Add an object to storage."""
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
+
+    def delete(self, obj=None):
+        """Remove an object from storage if it is present."""
+        if obj is None:
+            return
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        self.__objects.pop(key, None)
 
     def save(self):
         """Write all stored objects to the JSON file."""

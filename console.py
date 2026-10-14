@@ -52,12 +52,20 @@ class HBNBCommand(cmd.Cmd):
                 continue
             key, value = argument.split("=", 1)
             default = getattr(model_class, key, None)
+            column_type = getattr(
+                getattr(default, "property", None), "columns", []
+            )
+            if column_type:
+                default = column_type[0].type
+                default = getattr(default, "python_type", str)
             if isinstance(default, bool):
                 value = value.lower() == "true"
             elif isinstance(default, int):
                 value = int(value)
             elif isinstance(default, float):
                 value = float(value)
+            elif default in (int, float):
+                value = default(value)
             attributes[key] = value
         return attributes
 
@@ -117,11 +125,10 @@ class HBNBCommand(cmd.Cmd):
         if len(arguments) < 2:
             print("** instance id missing **")
             return
-        key = "{}.{}".format(arguments[0], arguments[1])
         if self._get_object(arguments[0], arguments[1]) is None:
             print("** no instance found **")
             return
-        del storage.all()[key]
+        storage.delete(self._get_object(arguments[0], arguments[1]))
         storage.save()
 
     def do_all(self, line):

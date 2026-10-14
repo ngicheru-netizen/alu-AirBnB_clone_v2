@@ -1,21 +1,44 @@
 #!/usr/bin/python3
 """User model."""
 
-from models.base_model import BaseModel
+import os
+
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+
+from models.base_model import Base, BaseModel
 
 
-class User(BaseModel):
+class User(BaseModel, Base):
     """Represent a user of the application."""
 
-    email = ""
-    password = ""
-    first_name = ""
-    last_name = ""
+    __tablename__ = "users"
+    email = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
+    first_name = Column(String(128), nullable=True)
+    last_name = Column(String(128), nullable=True)
 
     def __init__(self, *args, **kwargs):
         """Initialize a user with common account fields."""
         super().__init__(*args, **kwargs)
-        self.email = getattr(self, "email", "")
-        self.password = getattr(self, "password", "")
-        self.first_name = getattr(self, "first_name", "")
-        self.last_name = getattr(self, "last_name", "")
+        if getattr(self, "email", None) is None:
+            self.email = ""
+        if getattr(self, "password", None) is None:
+            self.password = ""
+        if getattr(self, "first_name", None) is None:
+            self.first_name = ""
+        if getattr(self, "last_name", None) is None:
+            self.last_name = ""
+
+
+if os.getenv("HBNB_TYPE_STORAGE") == "db":
+    User.places = relationship(
+        "Place",
+        backref="user",
+        cascade="all, delete, delete-orphan",
+    )
+    User.reviews = relationship(
+        "Review",
+        backref="user",
+        cascade="all, delete, delete-orphan",
+    )
