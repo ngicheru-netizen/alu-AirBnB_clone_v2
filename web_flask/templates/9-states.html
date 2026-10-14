@@ -4,7 +4,7 @@
     <title>HBNB</title>
   </head>
   <body>
-    {% if states %}
+    {% if states is defined %}
       <h1>States</h1>
       <ul>
         {% for state in states %}
