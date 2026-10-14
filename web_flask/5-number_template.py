@@ -12,7 +12,7 @@ app = Flask(
 )
 
 
-@app.route("/number/<int:n>", strict_slashes=False)
+@app.route("/number_template/<int:n>", strict_slashes=False)
 def number_template(n):
     """Render whether a number is even or odd."""
     return render_template("5-number.html", number=n)
