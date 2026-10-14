@@ -44,6 +44,23 @@ class HBNBCommand(cmd.Cmd):
         key = "{}.{}".format(class_name, object_id)
         return storage.all().get(key)
 
+    def _create_attributes(self, model_class, arguments):
+        """Build typed attributes from create command key/value arguments."""
+        attributes = {}
+        for argument in arguments[1:]:
+            if "=" not in argument:
+                continue
+            key, value = argument.split("=", 1)
+            default = getattr(model_class, key, None)
+            if isinstance(default, bool):
+                value = value.lower() == "true"
+            elif isinstance(default, int):
+                value = int(value)
+            elif isinstance(default, float):
+                value = float(value)
+            attributes[key] = value
+        return attributes
+
     def do_quit(self, line):
         """Quit command to exit the program."""
         return True
@@ -63,7 +80,10 @@ class HBNBCommand(cmd.Cmd):
         if model_class is None:
             print("** class doesn't exist **")
             return
+        attributes = self._create_attributes(model_class, arguments)
         instance = model_class()
+        for key, value in attributes.items():
+            setattr(instance, key, value)
         instance.save()
         print(instance.id)
 
