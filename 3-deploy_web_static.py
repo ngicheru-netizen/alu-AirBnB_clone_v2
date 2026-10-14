@@ -5,7 +5,6 @@ import importlib.util
 
 from fabric.api import env
 
-
 env.hosts = ["184.73.19.238", "35.175.218.108"]
 
 
