@@ -32,7 +32,9 @@ else:
     State.cities = property(
         lambda self: [
             city for city in __import__("models").storage.all().values()
-            if city.__class__.__name__ == "City"
-            and city.state_id == self.id
+            if (
+                city.__class__.__name__ == "City" and
+                city.state_id == self.id
+            )
         ]
     )
