@@ -67,3 +67,7 @@ class FileStorage:
             model_class = self.__classes.get(class_name)
             if model_class is not None:
                 self.__objects[key] = model_class(**attributes)
+
+    def close(self):
+        """Reload objects from the JSON file."""
+        self.reload()

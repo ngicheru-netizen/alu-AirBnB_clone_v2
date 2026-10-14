@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 """Display states and their cities from storage."""
 
+import os
+
 from flask import Flask, render_template
 
 from models import storage
 from models.state import State
 
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=os.path.join(os.path.dirname(__file__), "templates"),
+)
 
 
 @app.teardown_appcontext

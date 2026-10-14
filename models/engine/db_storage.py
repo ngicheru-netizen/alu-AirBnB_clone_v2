@@ -69,3 +69,7 @@ class DBStorage:
             expire_on_commit=False,
         )
         self.__session = scoped_session(factory)
+
+    def close(self):
+        """Remove the current scoped database session."""
+        self.__session.remove()
