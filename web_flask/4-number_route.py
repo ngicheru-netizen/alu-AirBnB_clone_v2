@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/number/<int:n>", strict_slashes=False)
 def number_route(n):
     """Display a number."""
-    return "Number: {}".format(n)
+    return "{} is a number".format(n)
 
 
 if __name__ == "__main__":
