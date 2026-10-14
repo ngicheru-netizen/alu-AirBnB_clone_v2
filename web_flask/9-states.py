@@ -21,6 +21,16 @@ def close_storage(exception):
     storage.close()
 
 
+@app.route("/states", strict_slashes=False)
+def states():
+    """Render all states sorted by name."""
+    states = sorted(
+        storage.all(State).values(),
+        key=lambda state: state.name,
+    )
+    return render_template("9-states.html", states=states)
+
+
 @app.route("/states/<state_id>", strict_slashes=False)
 def state_by_id(state_id):
     """Render a state and its cities selected by ID."""
