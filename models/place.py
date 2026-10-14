@@ -47,14 +47,6 @@ class Place(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """Initialize a place with its listing information."""
         super().__init__(*args, **kwargs)
-        if getattr(self, "city_id", None) is None:
-            self.city_id = ""
-        if getattr(self, "user_id", None) is None:
-            self.user_id = ""
-        if getattr(self, "name", None) is None:
-            self.name = ""
-        if getattr(self, "description", None) is None:
-            self.description = ""
         if getattr(self, "number_rooms", None) is None:
             self.number_rooms = 0
         if getattr(self, "number_bathrooms", None) is None:
@@ -63,10 +55,6 @@ class Place(BaseModel, Base):
             self.max_guest = 0
         if getattr(self, "price_by_night", None) is None:
             self.price_by_night = 0
-        if getattr(self, "latitude", None) is None:
-            self.latitude = 0.0
-        if getattr(self, "longitude", None) is None:
-            self.longitude = 0.0
         if getattr(self, "amenity_ids", None) is None:
             self.amenity_ids = []
         self.amenity_ids = list(getattr(self, "amenity_ids", []))

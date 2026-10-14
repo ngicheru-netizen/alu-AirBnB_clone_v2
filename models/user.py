@@ -21,14 +21,6 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """Initialize a user with common account fields."""
         super().__init__(*args, **kwargs)
-        if getattr(self, "email", None) is None:
-            self.email = ""
-        if getattr(self, "password", None) is None:
-            self.password = ""
-        if getattr(self, "first_name", None) is None:
-            self.first_name = ""
-        if getattr(self, "last_name", None) is None:
-            self.last_name = ""
 
 
 if os.getenv("HBNB_TYPE_STORAGE") == "db":
