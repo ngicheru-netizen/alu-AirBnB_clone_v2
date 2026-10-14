@@ -21,7 +21,7 @@ do_deploy = _load_function("2-do_deploy_web_static.py", "do_deploy")
 
 
 def deploy():
-    """Create an archive and deploy it to all configured web servers."""
+    """Create and distribute an archive to both web servers."""
     archive_path = do_pack()
     if archive_path is None:
         return False
