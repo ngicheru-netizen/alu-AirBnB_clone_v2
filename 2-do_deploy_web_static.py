@@ -41,7 +41,9 @@ def do_deploy(archive_path):
         if not _run("rm -f /data/web_static/current"):
             return False
         if not _run(
-            "ln -s {}/web_static /data/web_static/current".format(
+            "if [ -d {0}/web_static ]; then "
+            "ln -s {0}/web_static /data/web_static/current; "
+            "else ln -s {0} /data/web_static/current; fi".format(
                 release_path
             )
         ):
